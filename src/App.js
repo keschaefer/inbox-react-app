@@ -11,6 +11,8 @@ class App extends Component {
         messages: [],
         composeMessage: true,
         selected: [],
+        read: [],
+        unRead: [],
       }
     }
 
@@ -62,13 +64,42 @@ class App extends Component {
    this.patch([event.target.id], 'select', 'selected')
   }
 
+  markRead = () => {
+    let readArr = this.state.messages.filter(i => {
+      return i.selected === true
+    }) 
+    for (let i = 0; i < readArr.length; i++) {
+      this.patch([readArr[i].id], 'read', 'read', true)
+    }
+    this.setState({
+      read: readArr
+    })
+  }
+
+  markUnRead = () => {
+    let unReadArr = this.state.messages.filter(i => {
+      return i.selected === true
+    }) 
+    console.log(unReadArr)
+    for (let i = 0; i < unReadArr.length; i++) {
+      this.patch([unReadArr[i].id], 'read', 'read', false)
+      console.log(unReadArr[i].id)
+    }
+    this.setState({
+      unRead: unReadArr
+    })
+  }
+      
+     
+  
+
   render() {
     return (
       <div className="App body">
         <header className="App-header">
-         <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage}/>
+         <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage} markRead = {this.markRead} markUnRead = {this.markUnRead}/>
          <Message composeMessage={this.state.composeMessage}/>
-         <MessageList messages = {this.state.messages} markStarred = {this.markStarred} markSelected = {this.markSelected}/>
+         <MessageList messages = {this.state.messages} markStarred = {this.markStarred}  markSelected = {this.markSelected}/>
        
          
         </header>
