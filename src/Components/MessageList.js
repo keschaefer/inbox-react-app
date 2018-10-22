@@ -8,10 +8,10 @@ const MessageList = (props) => {
             <div className="col-xs-1">
                <div className="row">
                   <div className="col-xs-2">
-                     <input type="checkbox"></input>
+                     <input id = {i.id} onClick = {props.markSelected} type="checkbox" checked = {`${i.selected ? 'defaultselected' : ''}`}></input>
                   </div>
                   <div className="col-xs-2">
-                     <i onClick = {props.markStarred} className= {`star fa fa-star${i.starred ? '-o' : ''}`}></i>
+                     <i id = {i.id} onClick = {props.markStarred} className= {`star fa fa-star${i.starred ? '-o' : ''}`}></i>
                   </div>
                </div>
             </div>
