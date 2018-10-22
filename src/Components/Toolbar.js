@@ -1,12 +1,24 @@
 import React from 'react';
 
 const Toolbar = (props) => {
+   
+   let count = 0
+   let plural = true
+    props.messages.filter(i => {
+      if (i.read === false) {
+        count++
+      } 
+   })
+   if (count === 1) {
+      plural = false
+   }
+
    return (
       <div className="row toolbar">
          <div className="col-md-12">
             <p className="pull-right">
-            <span className="badge badge">{props.totalUnRead}</span>
-            unread messages
+            <span className="badge badge">{count}</span>
+            {`unread message${plural ? 's' : ''}`}
             </p>
             <a onClick = {props.hideMessage} className="btn btn-danger">
             <i className= {`fa ${props.composeMessage ? 'fa-plus' : 'fa-minus'}`}></i> 
@@ -34,7 +46,7 @@ const Toolbar = (props) => {
       <option value="gschool">gschool</option>
     </select>
 
-    <button className="btn btn-default">
+    <button onClick = {props.deleteMessage} className="btn btn-default">
       <i className="fa fa-trash-o"></i>
     </button>
   </div>

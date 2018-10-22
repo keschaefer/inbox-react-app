@@ -13,6 +13,7 @@ class App extends Component {
         selected: [],
         read: [],
         unRead: [],
+        totalUnRead: 0,
       }
     }
 
@@ -71,33 +72,38 @@ class App extends Component {
     for (let i = 0; i < readArr.length; i++) {
       this.patch([readArr[i].id], 'read', 'read', true)
     }
-    this.setState({
-      read: readArr
+      this.setState({
+      read: readArr,
     })
   }
-
+  
   markUnRead = () => {
     let unReadArr = this.state.messages.filter(i => {
       return i.selected === true
     }) 
-    console.log(unReadArr)
     for (let i = 0; i < unReadArr.length; i++) {
       this.patch([unReadArr[i].id], 'read', 'read', false)
-      console.log(unReadArr[i].id)
+      console.log(this.state.messages)
     }
     this.setState({
-      unRead: unReadArr
+      unRead: unReadArr,
     })
   }
       
-     
+  deleteMessage = () => {
+      this.state.messages.filter(i => {
+        if (i.selected === true) {
+          this.patch([i.id], 'delete')
+        }
+      }) 
+  } 
   
 
   render() {
     return (
       <div className="App body">
         <header className="App-header">
-         <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage} markRead = {this.markRead} markUnRead = {this.markUnRead}/>
+         <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage} markRead = {this.markRead} markUnRead = {this.markUnRead} messages = {this.state.messages} deleteMessage = {this.deleteMessage}/>
          <Message composeMessage={this.state.composeMessage}/>
          <MessageList messages = {this.state.messages} markStarred = {this.markStarred}  markSelected = {this.markSelected}/>
        
