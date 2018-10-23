@@ -98,12 +98,32 @@ class App extends Component {
       }) 
   } 
   
+  selectAll = () => {
+    let selected = this.state.messages.filter(i => {
+      return i.selected === true
+    })
+    console.log(selected)
+    if (selected.length === this.state.messages.length) {
+      console.log(selected.length)
+      console.log(this.state.messages.length)
+      this.state.messages.map(i => {
+        this.patch([i.id], 'allFalse')
+      })
+    } else {
+      this.state.messages.map(i => {
+        this.patch([i.id], 'allTrue')
+      })
+    }
+  }
 
+  
+  
+  
   render() {
     return (
       <div className="App body">
         <header className="App-header">
-         <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage} markRead = {this.markRead} markUnRead = {this.markUnRead} messages = {this.state.messages} deleteMessage = {this.deleteMessage}/>
+         <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage} markRead = {this.markRead} markUnRead = {this.markUnRead} messages = {this.state.messages} deleteMessage = {this.deleteMessage} selectAll = {this.selectAll}/>
          <Message composeMessage={this.state.composeMessage}/>
          <MessageList messages = {this.state.messages} markStarred = {this.markStarred}  markSelected = {this.markSelected}/>
        

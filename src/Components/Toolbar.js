@@ -24,7 +24,7 @@ const Toolbar = (props) => {
             <i className= {`fa ${props.composeMessage ? 'fa-plus' : 'fa-minus'}`}></i> 
             </a>
 
-    <button className="btn btn-default">
+    <button onClick= {props.selectAll} className="btn btn-default">
       <i className="fa fa-minus-square-o"></i>
     </button>
 
