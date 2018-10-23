@@ -7,7 +7,7 @@ const Toolbar = (props) => {
     props.messages.filter(i => {
       if (i.read === false) {
         count++
-      } 
+      } return count
    })
    if (count === 1) {
       plural = false
@@ -20,7 +20,7 @@ const Toolbar = (props) => {
             <span className="badge badge">{count}</span>
             {`unread message${plural ? 's' : ''}`}
             </p>
-            <a onClick = {props.hideMessage} className="btn btn-danger">
+            <a class= "check" onClick = {props.hideMessage} className="btn btn-danger">
             <i className= {`fa ${props.composeMessage ? 'fa-plus' : 'fa-minus'}`}></i> 
             </a>
 
@@ -32,15 +32,15 @@ const Toolbar = (props) => {
 
     <button onClick = {props.markUnRead} className="btn btn-default">Mark As Unread</button>
 
-    <select className="form-control label-select">
-      <option>Apply label</option>
+    <select onChange = {(event) => {props.addLabel(event); event.target.selectedIndex=0}} className="form-control label-select">
+      <option selected disabled>Apply label</option>
       <option value="dev">dev</option>
       <option value="personal">personal</option>
       <option value="gschool">gschool</option>
     </select>
 
-    <select className="form-control label-select">
-      <option>Remove label</option>
+    <select onChange = {(event) => {props.removeLabel(event); event.target.selectedIndex=0}}  className="form-control label-select">
+      <option selected disabled>Remove label</option>
       <option value="dev">dev</option>
       <option value="personal">personal</option>
       <option value="gschool">gschool</option>

@@ -91,7 +91,7 @@
 
 .toolbar select,
 .toolbar button,
-.toolbar a,
+.toolbar .a,
 .toolbar .badge {
   margin-right: .5em;
   margin-bottom: .5em;

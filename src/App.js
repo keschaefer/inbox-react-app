@@ -16,6 +16,8 @@ class App extends Component {
         totalUnRead: 0,
         tempSubject: '',
         tempBody: '',
+        // addLabel: '',
+        // removeLabel: '',
       }
     }
 
@@ -154,27 +156,53 @@ class App extends Component {
     })
   }
     
-    // .then(response => response.json())
-    //                 .then((response) => {
-    //                     para.setAttribute("class", "save-status")
-    //                     let save = document.querySelector('.save-status')
-    //                     para.innerText = response.message
-    //                     save.style.opacity = "1"
-    //                     setTimeout(function () {
-    //                         save.style.opacity = "0"
-    //                     }, 2000)
+  AddLabel = (event) => {
+    let selected = this.state.messages.filter(i => {
+      return i.selected === true
+    })
+    selected.map(i => {
+      this.patch([i.id], 'addLabel', 'label', event.target.value)
+  })
+}
+  
+  RemoveLabel = (event) => {
+    let selected = this.state.messages.filter(i => {
+      return i.selected === true
+    })
+    selected.map(i => {
+      this.patch([i.id], 'removeLabel', 'label', event.target.value)
+  })
+    }
   
   
+
   
   render() {
     return (
       <div className="App body">
         <header className="App-header">
-         <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage} markRead = {this.markRead} markUnRead = {this.markUnRead} messages = {this.state.messages} deleteMessage = {this.deleteMessage} selectAll = {this.selectAll}/>
-         <Message composeMessage={this.state.composeMessage} addMessage = {this.addMessage} saveSubject = {this.saveSubject} saveBody = {this.saveBody}/>
-         <MessageList messages = {this.state.messages} markStarred = {this.markStarred}  markSelected = {this.markSelected}/>
-       
-         
+         <Toolbar 
+          hideMessage ={this.hideMessage} 
+          composeMessage={this.state.composeMessage} 
+          markRead = {this.markRead} 
+          markUnRead = {this.markUnRead} 
+          messages = {this.state.messages} 
+          deleteMessage = {this.deleteMessage} 
+          selectAll = {this.selectAll} 
+          addLabel = {this.AddLabel} 
+          removeLabel = {this.RemoveLabel}
+         />
+         <Message 
+          composeMessage={this.state.composeMessage} 
+          addMessage = {this.addMessage} 
+          saveSubject = {this.saveSubject} 
+          saveBody = {this.saveBody}
+         />
+         <MessageList 
+          messages = {this.state.messages} 
+          markStarred = {this.markStarred}  
+          markSelected = {this.markSelected}
+         /> 
         </header>
       </div>
     );
