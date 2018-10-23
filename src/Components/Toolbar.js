@@ -12,34 +12,45 @@ const Toolbar = (props) => {
    if (count === 1) {
       plural = false
    }
+   let allSelected = false
+   let noneSelected = false
+   let selected = props.messages.filter(i => {
+    return i.selected === true
+    })
+    console.log(selected.length)
+    if (selected.length === props.messages.length) {
+      allSelected = true
+      noneSelected = false
+    } else if (selected.length === 0) {
+      allSelected = false
+      noneSelected = true
+    } else {
+     allSelected = false
+     noneSelected = false
+    }
 
    return (
       <div className="row toolbar">
          <div className="col-md-12">
             <p className="pull-right">
-            <span className="badge badge">{count}</span>
-            {`unread message${plural ? 's' : ''}`}
+              <span className="badge badge">{count}</span>
+              {`unread message${plural ? 's' : ''}`}
             </p>
             <a class= "check" onClick = {props.hideMessage} className="btn btn-danger">
-            <i className= {`fa ${props.composeMessage ? 'fa-plus' : 'fa-minus'}`}></i> 
+              <i className= {`fa ${props.composeMessage ? 'fa-plus' : 'fa-minus'}`}></i> 
             </a>
-
-    <button onClick= {props.selectAll} className="btn btn-default">
-      <i className="fa fa-minus-square-o"></i>
-    </button>
-
-    <button onClick = {props.markRead} className="btn btn-default">Mark As Read</button>
-
-    <button onClick = {props.markUnRead} className="btn btn-default">Mark As Unread</button>
-
-    <select onChange = {(event) => {props.addLabel(event); event.target.selectedIndex=0}} className="form-control label-select">
-      <option selected disabled>Apply label</option>
-      <option value="dev">dev</option>
-      <option value="personal">personal</option>
-      <option value="gschool">gschool</option>
-    </select>
-
-    <select onChange = {(event) => {props.removeLabel(event); event.target.selectedIndex=0}}  className="form-control label-select">
+            <button onClick= {props.selectAll} className="btn btn-default">
+              <i className= {`fa fa${allSelected ? '-check-square-o' : noneSelected ? '-square-o' : '-minus-square-o'}`}></i>
+            </button>
+            <button onClick = {props.markRead} className="btn btn-default">Mark As Read</button>
+            <button onClick = {props.markUnRead} className="btn btn-default">Mark As Unread</button>
+            <select onChange = {(event) => {props.addLabel(event); event.target.selectedIndex=0}} className="form-control label-select">
+              <option selected disabled>Apply label</option>
+              <option value="dev">dev</option>
+              <option value="personal">personal</option>
+              <option value="gschool">gschool</option>
+            </select>
+            <select onChange = {(event) => {props.removeLabel(event); event.target.selectedIndex=0}}  className="form-control label-select">
       <option selected disabled>Remove label</option>
       <option value="dev">dev</option>
       <option value="personal">personal</option>

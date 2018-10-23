@@ -13,11 +13,10 @@ class App extends Component {
         selected: [],
         read: [],
         unRead: [],
-        totalUnRead: 0,
         tempSubject: '',
         tempBody: '',
-        // addLabel: '',
-        // removeLabel: '',
+        allSelected: false,
+        noneSelected: false,
       }
     }
 
@@ -87,7 +86,6 @@ class App extends Component {
     }) 
     for (let i = 0; i < unReadArr.length; i++) {
       this.patch([unReadArr[i].id], 'read', 'read', false)
-      console.log(this.state.messages)
     }
     this.setState({
       unRead: unReadArr,
@@ -191,6 +189,9 @@ class App extends Component {
           selectAll = {this.selectAll} 
           addLabel = {this.AddLabel} 
           removeLabel = {this.RemoveLabel}
+          allSelected = {this.state.allSelected}
+          someSelected = {this.state.someSelected}
+          noneSelected = {this.state.noneSelected}
          />
          <Message 
           composeMessage={this.state.composeMessage} 
