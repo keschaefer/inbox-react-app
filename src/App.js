@@ -14,6 +14,8 @@ class App extends Component {
         read: [],
         unRead: [],
         totalUnRead: 0,
+        tempSubject: '',
+        tempBody: '',
       }
     }
 
@@ -102,10 +104,7 @@ class App extends Component {
     let selected = this.state.messages.filter(i => {
       return i.selected === true
     })
-    console.log(selected)
     if (selected.length === this.state.messages.length) {
-      console.log(selected.length)
-      console.log(this.state.messages.length)
       this.state.messages.map(i => {
         this.patch([i.id], 'allFalse')
       })
@@ -116,6 +115,54 @@ class App extends Component {
     }
   }
 
+  saveSubject = (event) => {
+    event.preventDefault()
+    this.setState({
+      tempSubject: event.target.value
+  })
+}
+  
+  saveBody = (event) => {
+    event.preventDefault()
+    this.setState({
+      tempBody: event.target.value
+  })
+}
+
+  addMessage = (event) => {
+    let tempMessage = {
+        subject: this.state.tempSubject,
+        body: this.state.tempBody,
+        read: false,
+        starred: false,
+        selected: false,
+        labels: [],
+      }
+    fetch ("http://localhost:8082/api/messages", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json; charset=utf-8"
+              },
+              body: JSON.stringify(tempMessage)
+          })
+
+    .then(response => (response.json()))
+    .then(response => {
+      this.setState({
+        messages: [...this.state.messages, response]
+      })
+    })
+  }
+    
+    // .then(response => response.json())
+    //                 .then((response) => {
+    //                     para.setAttribute("class", "save-status")
+    //                     let save = document.querySelector('.save-status')
+    //                     para.innerText = response.message
+    //                     save.style.opacity = "1"
+    //                     setTimeout(function () {
+    //                         save.style.opacity = "0"
+    //                     }, 2000)
   
   
   
@@ -124,7 +171,7 @@ class App extends Component {
       <div className="App body">
         <header className="App-header">
          <Toolbar hideMessage ={this.hideMessage} composeMessage={this.state.composeMessage} markRead = {this.markRead} markUnRead = {this.markUnRead} messages = {this.state.messages} deleteMessage = {this.deleteMessage} selectAll = {this.selectAll}/>
-         <Message composeMessage={this.state.composeMessage}/>
+         <Message composeMessage={this.state.composeMessage} addMessage = {this.addMessage} saveSubject = {this.saveSubject} saveBody = {this.saveBody}/>
          <MessageList messages = {this.state.messages} markStarred = {this.markStarred}  markSelected = {this.markSelected}/>
        
          
