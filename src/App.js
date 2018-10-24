@@ -11,31 +11,26 @@ class App extends Component {
         messages: [],
         composeMessage: true,
         selected: [],
-        read: [],
-        unRead: [],
         tempSubject: '',
         tempBody: '',
-        allSelected: false,
-        noneSelected: false,
       }
     }
 
   async componentDidMount() {
-      let result = await fetch("http://localhost:8082/api/messages")
-      let data =  await result.json()
-      console.log("data", data)
-      this.setState({
-          messages: data,
-          selected: data.filter(i => {
-            return i.selected === true
-          })
+    let result = await fetch("http://localhost:8082/api/messages")
+    let data =  await result.json()
+    this.setState({
+        messages: data,
+        selected: data.filter(i => {
+          return i.selected === true
         })
-      }  
+      })
+    }  
 
-  
+    
   hideMessage = () => {
     this.setState({composeMessage: !(this.state.composeMessage)}) 
-    }
+  }
 
   patch = async (id, command, attribute, value) => {
     var patch = {
@@ -52,20 +47,20 @@ class App extends Component {
         'Accept': 'application/json'
       }
     })
-      
-      const posted = await response.json()
+        
+    const posted = await response.json()
       this.setState({
         messages: posted
       }) 
-    }
-  
+  }
+    
 
   markStarred = (event) => {
     this.patch([event.target.id], 'star', 'starred')
   }  
 
   markSelected = (event) => {
-   this.patch([event.target.id], 'select', 'selected')
+    this.patch([event.target.id], 'select', 'selected')
   }
 
   markRead = () => {
@@ -75,11 +70,11 @@ class App extends Component {
     for (let i = 0; i < readArr.length; i++) {
       this.patch([readArr[i].id], 'read', 'read', true)
     }
-      this.setState({
+    this.setState({
       read: readArr,
     })
   }
-  
+
   markUnRead = () => {
     let unReadArr = this.state.messages.filter(i => {
       return i.selected === true
@@ -91,15 +86,15 @@ class App extends Component {
       unRead: unReadArr,
     })
   }
-      
+        
   deleteMessage = () => {
-      this.state.messages.filter(i => {
-        if (i.selected === true) {
-          this.patch([i.id], 'delete')
-        }
-      }) 
+    this.state.messages.filter(i => {
+      if (i.selected === true) {
+        this.patch([i.id], 'delete')
+      }
+    }) 
   } 
-  
+    
   selectAll = () => {
     let selected = this.state.messages.filter(i => {
       return i.selected === true
@@ -119,32 +114,32 @@ class App extends Component {
     event.preventDefault()
     this.setState({
       tempSubject: event.target.value
-  })
-}
-  
+    })
+  }
+    
   saveBody = (event) => {
     event.preventDefault()
     this.setState({
       tempBody: event.target.value
-  })
-}
+    })
+  }
 
-  addMessage = (event) => {
+  addMessage = () => {
     let tempMessage = {
-        subject: this.state.tempSubject,
-        body: this.state.tempBody,
-        read: false,
-        starred: false,
-        selected: false,
-        labels: [],
-      }
+      subject: this.state.tempSubject,
+      body: this.state.tempBody,
+      read: false,
+      starred: false,
+      selected: false,
+      labels: [],
+    }
     fetch ("http://localhost:8082/api/messages", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json; charset=utf-8"
-              },
-              body: JSON.stringify(tempMessage)
-          })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(tempMessage)
+    })
 
     .then(response => (response.json()))
     .then(response => {
@@ -153,33 +148,30 @@ class App extends Component {
       })
     })
   }
-    
+      
   AddLabel = (event) => {
     let selected = this.state.messages.filter(i => {
       return i.selected === true
     })
     selected.map(i => {
       this.patch([i.id], 'addLabel', 'label', event.target.value)
-  })
-}
-  
+    })
+  }
+    
   RemoveLabel = (event) => {
     let selected = this.state.messages.filter(i => {
       return i.selected === true
     })
     selected.map(i => {
       this.patch([i.id], 'removeLabel', 'label', event.target.value)
-  })
-    }
-  
-  
+    })
+  }
 
-  
   render() {
     return (
       <div className="App body">
-        <header className="App-header">
-         <Toolbar 
+        <header className="App-header"></header>
+          <Toolbar 
           hideMessage ={this.hideMessage} 
           composeMessage={this.state.composeMessage} 
           markRead = {this.markRead} 
@@ -192,22 +184,22 @@ class App extends Component {
           allSelected = {this.state.allSelected}
           someSelected = {this.state.someSelected}
           noneSelected = {this.state.noneSelected}
-         />
-         <Message 
+          />
+          <Message 
           composeMessage={this.state.composeMessage} 
           addMessage = {this.addMessage} 
           saveSubject = {this.saveSubject} 
           saveBody = {this.saveBody}
-         />
-         <MessageList 
+          />
+          <MessageList 
           messages = {this.state.messages} 
           markStarred = {this.markStarred}  
           markSelected = {this.markSelected}
-         /> 
-        </header>
+          /> 
       </div>
     );
   }
 }
+
 
 export default App;
