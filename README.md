@@ -2,7 +2,7 @@
 
 Replicated a gmail look-alike inbox with React. Users can:
 
-* mark messages as read/unread
+* mark messages as read/unread!
 * add labels to messages
 * compose new message
 * select/deselect messages
