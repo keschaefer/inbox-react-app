@@ -12,7 +12,7 @@ Replicated a gmail look-alike inbox with React. Users can:
 
 ## Link
 
-This site is hosted at http://gschool-inbox-keschaefer.surge.sh
+This site is hosted at http://inbox-app-gschool.surge.sh/
 
 ## Preview
 
