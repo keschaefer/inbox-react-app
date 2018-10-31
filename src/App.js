@@ -17,7 +17,7 @@ class App extends Component {
     }
 
   async componentDidMount() {
-    let result = await fetch("http://localhost:8082/api/messages")
+    let result = await fetch("https://glacial-spire-48068.herokuapp.com/api/messages")
     let data =  await result.json()
     this.setState({
         messages: data,
@@ -39,7 +39,7 @@ class App extends Component {
       [attribute]: value,
     }
 
-    const response = await fetch("http://localhost:8082/api/messages", {
+    const response = await fetch("https://glacial-spire-48068.herokuapp.com/api/messages", {
       method: 'PATCH',
       body: JSON.stringify(patch),
       headers: {
