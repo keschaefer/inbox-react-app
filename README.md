@@ -8,8 +8,6 @@ Replicated a gmail look-alike inbox with React. Users can:
 * select/deselect messages
 * star/unstar messages
 
-**Note: this site requires access to my personal, altertered "collective-api" to function properly particularly for select/deselect functionality" 
-
 ## Link
 
 This site is hosted at http://inbox-app-gschool.surge.sh/
