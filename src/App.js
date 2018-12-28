@@ -149,16 +149,16 @@ class App extends Component {
     })
   }
 
-  router.post('/messages', (req, res, next) => {
-    const message = db.messages.insert({
-      subject: req.body.subject,
-      body: req.body.body,
-      read: false,
-      starred: false,
-      labels: [],
-    })
-    res.json(message)
-  })
+  // router.post('/messages', (req, res, next) => {
+  //   const message = db.messages.insert({
+  //     subject: req.body.subject,
+  //     body: req.body.body,
+  //     read: false,
+  //     starred: false,
+  //     labels: [],
+  //   })
+  //   res.json(message)
+  // })
       
   AddLabel = (event) => {
     let selected = this.state.messages.filter(i => {
